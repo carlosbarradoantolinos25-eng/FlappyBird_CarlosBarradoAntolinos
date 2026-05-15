@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Timeline;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BirdController : MonoBehaviour
 {
@@ -14,7 +11,7 @@ public class BirdController : MonoBehaviour
     private bool Salto = false;
     private int Score = 0;
     public TextMeshProUGUI TextoScore;
-    
+    public AudioScript ScriptAudio; 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -29,6 +26,7 @@ public class BirdController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Salto = true;
+            ScriptAudio.sfx_source.PlayOneShot(ScriptAudio.Salto);
             animator.SetBool("Jumping", true);
         }
     }
@@ -54,6 +52,9 @@ public class BirdController : MonoBehaviour
         Debug.Log(gameObject.name + "he colisionado con " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Pipe"))
         {
+            ScriptAudio.music_source.Pause();
+            SceneManager.LoadScene(1);
+            ScriptAudio.sfx_source.PlayOneShot(ScriptAudio.DañoRecibido);
             Debug.Log("colision detectada");
             Time.timeScale = 0;
         }
@@ -63,6 +64,7 @@ public class BirdController : MonoBehaviour
         if (other.gameObject.CompareTag("ScoreBox"))
         {
             Score += 1;
+            ScriptAudio.sfx_source.PlayOneShot(ScriptAudio.PasarPorTuberia);
             UpdateUI();
             Debug.Log(Score);
         }

@@ -9,6 +9,7 @@ public class UI_Manager : MonoBehaviour
 {
     public GameObject PauseMenu;
     public GameObject PauseStartText;
+    public GameObject UI_ENTERA;
     private bool PauseStart = true;
     public AudioMixer MasterMixer;
     void Start()
@@ -33,11 +34,13 @@ public class UI_Manager : MonoBehaviour
         {
             Time.timeScale = 0;
             PauseMenu.SetActive(true);
+            UI_ENTERA.SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && PauseMenu.active == true)
         {
             Time.timeScale = 1;
             PauseMenu.SetActive(false);
+            UI_ENTERA.SetActive(true);
         }
     }
     public void Boton_Resume()
@@ -54,9 +57,5 @@ public class UI_Manager : MonoBehaviour
     public void Boton_Exit()
     {
         SceneManager.LoadScene(0);
-    }
-    public void SetSound(float SoundLevel)
-    {
-        MasterMixer.SetFloat("MusicVol", SoundLevel);
     }
 }
